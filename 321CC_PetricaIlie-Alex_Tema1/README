@@ -1,0 +1,94 @@
+	Task1 - In acest task am creat clasa CryptoObj care retine in x puterea
+de calcul si in y costul unui upgrade. Aceasta colectie o voi sorta dupa puterea
+de calcul (x) in ordine crescatoare. Acum in functia getResult() am 3 variabile
+cheie suma, suma2 si S. suma reprezinta suma tuturor costurilor de 1 upgrade
+pentru fiecare calculator pana in punctul curent in care ma aflu ( din iteratia
+forului). In S retin cat am cheltuit (pe acesta il compar cu suma de bani B) de
+care dispun ca sa stiu cand ma opresc. suma2 retine fostul S de la pasul 
+anterior. In parcurgerea forului testez daca urmatorul calculator are aceeasi
+putere de calcul ca si calculatorul curent caz in care doar il pun in suma.
+In caz contrar, adaug in suma calculatorul curent si incerc sa ajung cu toate
+calculatoarele la puterea de calcul a urmatorului calculator printr-o formula
+matematica. S este egal cu S-ul anterior(cat platisem deja) + suma (cat costa 
+ca fac un upgrade pt toate calculatoarele din urma) inmultit cu diferenta de
+putere dintre ele ( atat as avea nevoie ca sa ajung la puterea acestuia ).
+Daca S < B atunci actualizez puterea de calcul doar a ult calculator 
+(e suficient sa o cunosc doar pentru el) si a sumei2. Odata iesit 
+din for pot iesi din 2 motive: ori am reusit sa le upgradez pe toate la 
+nivelul ultimului pc si mai dispun de bani ori am iesit cu break deoarece
+nu am mai avut bani sa ajung la nivelul urmatorului calculator.
+Pentru primul caz o sa scot variabila maxim(cea care face salturi) 1 ceea
+ce inseamna ca o sa incerc sa ma apropii de solutie cu pas 1. In caz in care
+maxim este mai mare evident decat ultima putere de calcul cunoscuta, merg
+"recursiv" in bucla while si injumatatesc maximul pana cand stiu ca ajung
+la o valoare posibila(adica S < B) si am sarit deja peste maxim - putere
+de calcul operatii, dupa care merg iar cu cate 1 iteratie pana la solutie.
+Complexitatea temporala este O(N+B) iar cea spatiala O(N) din cauza
+vectorului de CryptoObj ce contine doar 2 inturi.
+	Task2 - Aceasta problema a fost asemanata cu problema rucsacului
+din cadrul laboratorului si respecta evident acelasi pattern, cu modificarea
+ca este un vector 3D in loc de 2D deoarece in cadrul rucsacului puneam problema
+valorii maxime obtinute din primele i obiecte de greutate j, aici ne punem
+problema profitului maxim din primele i obiecte de buget j si maxloss k.
+Initial pe prima linie a vectorului 3D am initializat valorile cu 0
+deoarece 0 este profitul maxim pe care il poti obtine din 0 obiecte.
+Apoi in cadrul primului for ce desemneaza numarul de obiecte citim
+de fiecare data bursa noua disponibila pentru a nu irosi spatiu, 
+profitul si maxlossul pe care aceasta il ofera.
+Apoi parcurgem coordonatele burselor si ale maxlossului, ne punem
+profitul maxim din primele i burse profitul maxim din primele i-1 
+burse (momentan, presupunem ca nu luam bursa i in considerare).
+Testam daca aceasta se poate lua in considerare dupa buget si 
+maxloss (adica daca am adauga-o, nu ar depasi bugetul si maxlossul)
+si determinam profitul maxim intre profitul din cele i-1 burse
+si profitul obtinut daca am lua bursa noua in calcul. La final
+stim ca solutia noastra se afla pe pozitia [N][B][L].
+Cum avem 3 foruri imbricate ce dau solutia, complexitatea temporala
+este O(N*B*L) iar cea spatiala este O(n^3) din cauza vectorului
+tridimensional.
+	Task3 - Am plecat de la premisa ca o vale se poate 
+realiza eficient plecand de la ipoteza ca legatura dintre sufix
+si prefix ar fi valoarea minima a sirului. Daca aceasta se repeta
+de mai multe ori nu ar conta pe care dintre ele o alegem, caci intre 
+ele va trebui sa crestam varfurile pana la valoarea acestora
+deci s-ar efectua acelasi cost. Apoi am avut grija ca in cazul
+in care acesta s-ar afla in margini, adica pe pozitia 0 sau 
+pozitia n - 1 ar trebui sa mut punctul de reper ce leaga
+sufixul de prefix pe pozitia 1 sau n - 2, iar costul
+acestei mutari ar fi diferenta intre ele. (Caci ar trebui
+sa aduc valoarea acelui varf la valoarea minimului). Ulterior
+in functia getResult doar fac 2 parcurgeri de la 
+0 la poz - 1 si de la n - 1 la poz + 1 pentru a 
+forma valea, adica siruri descrescatoare intre 0 -> poz - 1
+si n - 1 - > poz + 1. In parcurgerea forului de la 0 la poz -1
+se testeaza daca varful urmator are valoare mai mare decat varful
+anterior caz in care acesta ar trebui sapat pana la valoarea
+celui anterior ( pentru a mentine valea ) si adaug la costul
+total aceasta sapare. La fel si in forul de la n - 1 la poz + 1,
+acelasi principiu. Complexitatea temporala este O(N) din cauza 
+parcurgerii de la 0 la poz - 1 si n - 1 la poz + 1. Complexitatea
+spatiala este O(N), datorat vectorului ce retine varfurile.
+	Task4 - Folosim o dinamica dp[n][3] deoarece observam ca oricum ar fi
+combinatia de adiacenta, un varf ar putea fi sapat de maxim 2 ori (exemplu:
+5 5 4 unde primul 5 si 4 ar avea cost infinit si cel din mijloc cost 0,
+ar fi nevoie de 2 taieri succesive ale lui 5 din mijloc, pentru a ajunge 3).
+Pe aceasta premisa ajungem la urmatoarea recurenta: dp[i][j] = costul
+minim pentru a obtine varfuri adiacente de lungimi diferite din primii i 
+termeni si j taieri asupra varfului i. La fiecare pas incercam sa 
+minimizam costul de a obtine varfuri adiacente de lungimi diferite in 
+sirul nostru, folosind costurile calculate la pasul anterior. 
+Pracitc, decidem la un pas i costul minim pentru o j taiere(0,1,2) 
+care este j * cost taiere varf 1 unitate + minimul dintre costurile 
+disponibile la pasul anterior (adica minimul dintre varf la pas i - 1 
+daca ar fi taiat de 0,1,2 si ar fi diferit ca nivel fata de varf i). 
+Verificam de asemenea cand testam taierile daca acestea se pot realiza, 
+in cazul in care acestea nu se pot realiza ( nu pot taia un varf de  nivel 1
+de 2 ori, deci ar avea dp[][2] = Infinit. Mai exista si cazul in
+care orice taiere i-as aplica varfului i el nu este adiacent cu varful i - 1
+obtinut tot din cele 3 taieri, caz in care pe linia dp[i][j] se copiaza
+minimul dintre dp[i-1][0], dp[i-1][1], dp[i-1][2]. In final costul
+minim pentru a realiza sirul este minimul dintre valorile de pe pozitia
+dp[n]. Complexitatea temporala este O(n) din cauza ca am de parcurs
+toate matricea careia ii stiu dimensiunea pe coloane(deci O(3*n)), iar 
+cea spatiala este O(n) din cauza matricei si a vectorului in care 
+retin RidgeObj(adica nivelul si costul unei taieri).

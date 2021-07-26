@@ -1,0 +1,58 @@
+
+	Task1 - Aici am folosit clasa Poduri Obj creata de mine ce 
+retine coordonatele x y ale unui pod si level care reprezinta
+in parcurgerea bfs pe ce nivel se afla fata de unde s-a plecat.
+Practic dupa ce imi citesc datele si completem matricea
+de caractere primita ca input, imi creez queueul si primul obiect
+poduri obj, care este de fapt sursa. Apoi in timpul parcurgerii
+bfs dupa ce scot nod cu nod verific intai tipul pozitiei pe care
+ma aflu, 'D' inseamna ca ma pot misca in 4 feluri(sus jos stanga dreapta)
+'O' doar 2 feluri (stanga dreapta) iar V alte 2 feluri (sus jos).
+Verific daca poizitia pe care ma aflu ma poate scoate din grid pentru
+a termina problema si a intoarce numarul de poduri prin care am trecut. 
+Altfel pentru fiecare caz verific daca mutarea este corecta (pozitia nu 
+a fost vizitata deja si nu este caracter '.', caz in care ar fi invalida 
+mutarea) si adaug in coada Poduri Obj cu coordonatele valide posibile si
+level + 1 fata de nodul scos. In cazul in care ies din bfs (coada a ajuns
+goala inseamna ca nu am putut gasi o solutie de a iesi din grid deci
+intorc -1. Complexitate temporala O(N*M) iar complexitatea spatiala O(N*M).
+
+	Task2 - La acest task cheia rezolvarii a fost construirea grafului
+iar apoi aflarea componentelor conexe. Am folosit un map intre string
+si integer pentru a corela fiecarui mail un indice ce il voi folosi
+in graf (ca in lab, grafurile sunt cu componente int), dar si pentru
+a nu introduce dubluri (practic odata ce un mail are o valoare asignata)
+eu nu mai introduc acelasi mail cu alt indice, i se atribuie acel indice.
+O lista de string de nume in care retin numele citite, o lista de liste
+de int in care voi retine indicii (mailurile) fiecarui nume, asociind
+lui names[i] mailurile din indexes[i], iar in string voi avea toate
+stringurile (intai toate mailurile apoi toate numele). Graful neorientat
+il construiesc construind un arc intre fiecare names[i] si fiecare indice
+din indexes[i]. Apoi fac dfs plecand din fiecare nume, deci din nodurile
+ce au indice > numarul de mailuri si daca in parcurgerea dfs gasesc
+un nod cu indice > numarul de mailuri inseamna ca am dat peste alt nume,
+o sa retin numele minim lexicografic intr-o alta variabila, altfel
+am dat peste un mail. La final de dfs trebuie sortate mailurile si adaugat
+in "head" numele minim lexicografic aflat in parcurgerea dfs. Apoi
+a obtine rezultatul corect, rezultatul, obtinut ca lista de liste de string
+va fi sortat conform cerintei (crescator dupa nr mailuri si crescator
+dupa nume daca au acelasi numar de mailuri). Complexitatea temporala este
+O(N*(K)) datorita dfs-ului in care avem N*(K+1) noduri unde fiecare
+nod nume are K muchii. Complexitatea spatiala este tot O(N*K).
+
+	Task3 - In cadrul acestei probleme m-am folosit de Backtracking si de 
+Programare Dinamica. Backtrackingul a fost folosit pentru a afla numerele
+ce pot alcatui solutia (practic Combinari de N luate cate K) luand doar
+combinarile ce incep cu 1. Programarea dinamica am folosit-o plecand
+de la problema Coin Change Problem din laborator, extinsa pentru afla
+numarum minim de monede din primele i monede ce dau suma j. Evident
+m-am folosit de acest lucru pentru a forma sirul consecutiv de lungime
+maxima, pentru o anumita solutie parcurgand ultima linie pana cand
+as fi dat peste un numar >T, caz in care mi-ar fi dat o lungime partiala
+pentru cazul respectiv, facand verificari daca este si lungime globala
+sau nu si salvand solutia ca string. Complexitate temporala:
+O(Combinari(N,K) * K * N * T), deoarece combinari(n,k) genereaza
+fiecare solutie iar pentru aceasta trebuie sa calculez sirul consecutiv
+de lungime maxima, iar prin dp acest cost ajunge la K * N * T (atat
+ar fi de completat in matrice). Complexitatea spatiala este
+O(K*N*T), data de dimensiunea matricei dp.
